@@ -1,0 +1,497 @@
+---
+title: "Occupancy Analysis"
+author: "burkeprw"
+date: "November 27, 2017"
+output: github_document
+---
+
+First, load packages.
+
+```{r message=FALSE, warning=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(readr))
+suppressPackageStartupMessages(library(forcats))
+suppressPackageStartupMessages(library(camtrapR))
+suppressPackageStartupMessages(library(unmarked))
+suppressPackageStartupMessages(library(standardize))
+```
+
+
+### Step 1: Read Data in Wide Format for `unmarked`  
+
+I read the .rds file saved in [Task 1](https://github.com/burkeprw/rsh_zool500_bats/blob/master/r_scripts/t1_tidydata/ghd01_tidydata.md). I also read data files from BC Agricultural Land Use Inventory (ALUI) for cover type and land use data. It is necessary to make the following formatting adjustments to the .csv data:  
+- DateTimeOriginal column is formatted as YYYY-MM-DD hh:mm:ss in Excel before saving, then read into R using `format = "%Y-%m-%d %H:%M:%S`  
+
+I made the following edits to "all_sitecovs.csv":
+- added BC ALUI landcovers   
+- added elevation from DEM   
+- changes Site names for NABat sites with year prefix
+- removed sites with NA start dates   
+- Added 14 iterations of the observation covariates: GLA and LAI.4   
+
+```{r warning=FALSE, message=FALSE}
+
+all_obs_full_read <- readRDS("C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/r_output/all_obs_comp.rds")
+
+all_sitecovs <- read_csv("C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/data_copy/all_sitecovs_2016.csv")
+all_sitecovs$D.1 <- yday(as.Date(all_sitecovs$D.1, "%Y-%m-%d")) # converts date to Julian number
+all_sitecovs$D.2 <- yday(as.Date(all_sitecovs$D.2, "%Y-%m-%d"))
+all_sitecovs$D.3 <- yday(as.Date(all_sitecovs$D.3, "%Y-%m-%d"))
+all_sitecovs$D.4 <- yday(as.Date(all_sitecovs$D.4, "%Y-%m-%d"))
+all_sitecovs$D.5 <- yday(as.Date(all_sitecovs$D.5, "%Y-%m-%d"))
+all_sitecovs$D.6 <- yday(as.Date(all_sitecovs$D.6, "%Y-%m-%d"))
+all_sitecovs$D.7 <- yday(as.Date(all_sitecovs$D.7, "%Y-%m-%d"))
+all_sitecovs$D.8 <- yday(as.Date(all_sitecovs$D.8, "%Y-%m-%d"))
+all_sitecovs$D.9 <- yday(as.Date(all_sitecovs$D.9, "%Y-%m-%d"))
+all_sitecovs$D.10 <- yday(as.Date(all_sitecovs$D.10, "%Y-%m-%d"))
+all_sitecovs$D.11 <- yday(as.Date(all_sitecovs$D.11, "%Y-%m-%d"))
+all_sitecovs$D.12 <- yday(as.Date(all_sitecovs$D.12, "%Y-%m-%d"))
+all_sitecovs$D.13 <- yday(as.Date(all_sitecovs$D.13, "%Y-%m-%d"))
+all_sitecovs$D.14 <- yday(as.Date(all_sitecovs$D.14, "%Y-%m-%d"))
+edit_sitecovs <- select(all_sitecovs,-LOTLNK.x,-COVLNKTXT.x,-LOCALGOVDI,-SURVEY_YEA,-BC_LOTLNK,
+                        -BC_COVLNKT,-OBJECTID,-BC_COVLNKTXT,-LOCALGOVDISP,-LOTLNK.y,-COVLNKTXT.y,
+                        -COVGRPTYPE1,-COVTYPE1,-COVGRPTYPE2,-COVTYPE2,-PRACODE,-IRRIGRPCODE,
+                        -IRRIGCODE,-IRRIGNOTUSED,-IRRIGCODE2,-LIMITCODE)
+
+sites_bats <- read_csv("C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/r_output/dat_allsites.csv")
+
+sites <- left_join(sites_bats,edit_sitecovs,"Site")
+sites_2016 <- sites %>%
+  filter(Surv_yr == 2016)
+sites_2016[c("det_model", "mic_type")][is.na(sites_2016[c("det_model", "mic_type")])] <- "UNKNOWN"
+
+sites_2016$start_date <- as.Date(sites_2016$start_date, "%Y-%m-%d")
+sites_2016$end_date <- as.Date(sites_2016$end_date, "%Y-%m-%d")
+
+##Clean up Environment
+rm(sites_bats)
+rm(sites)
+rm(all_sitecovs)
+rm(edit_sitecovs)
+```
+
+Look at the distribution of sampling periods across time:   
+
+```{r}
+
+det_op <- data.frame(lapply(sites_2016, as.character), stringsAsFactors=FALSE)
+
+detop <- cameraOperation(CTtable = det_op,           # Update with problems
+                                   stationCol = "Site",
+                                   setupCol = "start_date",
+                                   retrievalCol = "end_date",
+                                   writecsv = FALSE,
+                                   hasProblems = TRUE,    #TEMP     
+                                   dateFormat = "%Y-%m-%d"
+                                   )
+
+camopPlot <- function(camOp){
+  which.tmp <- grep(as.Date(colnames(camOp)), pattern = "01$")
+  label.tmp <- format(as.Date(colnames(camOp))[which.tmp], "%Yâ€%m")
+  at.tmp <- which.tmp / ncol(camOp)
+  image(t(as.matrix(camOp)), xaxt = "n", yaxt = "n", col = c("red", "grey70"))
+  axis(1, at = at.tmp, labels = label.tmp)
+  axis(2, at = seq(from = 0, to = 1, length.out = nrow(camOp)), labels = rownames(camOp), las = 1)
+  abline(v = at.tmp, col = rgb(0,0,0, 0.2))
+  box()
+}
+camopPlot(camOp = detop)
+
+```
+
+
+I coerce the data using the package `camtrapR` and function 'detectionHistory()' to prepare for modeling. Date requirements for `unmarked` include 1st 3 columns in this order: site, date, and the occ/count variable, followed by detection periods. Here I use 4 day sample periods (occasionLength = 7).   
+
+Need to check for:   
+- missing data   
+- detector not working   
+
+```{r pressure, echo=FALSE}
+
+all_obs_ungroup <- ungroup(all_obs_full_read)
+all_obs_df <- as.data.frame(all_obs_ungroup) %>%
+  mutate(DateTimeOriginal_fmt = as.Date(DateTimeOriginal, format = "%Y-%m-%d %H:%M:%S"))
+#write_csv(all_obs_df,"datecheck.csv")
+
+#all_obs_df %>%
+#  group_by(Sp_final) %>%
+#  summarize(max(length(Count)))
+
+
+# 01 Detection history for MYLU
+DetHist_Mylu <- detectionHistory(recordTable = all_obs_df,
+                                 camOp = detop,
+                                 stationCol = "Site",
+                                 speciesCol = "Sp_final",
+                                 recordDateTimeCol = "DateTimeOriginal",
+                                 recordDateTimeFormat = "%Y-%m-%d %H:%M:%S",
+                                 species = "MYLU",
+                                 occasionLength = 4,
+                                 day1 = "station",
+                                 timeZone = "America/Vancouver",
+                                 includeEffort = FALSE,
+                                 #datesAsOccasionNames = TRUE,
+                                 #scaleEffort = TRUE,
+                                 writecsv = TRUE,
+                                 outDir = "C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/r_output/rDetHist")
+
+# 02 Detection history for MYYU
+DetHist_Myyu <- detectionHistory(recordTable = all_obs_df,
+                                 camOp = detop,
+                                 stationCol = "Site",
+                                 speciesCol = "Sp_final",
+                                 recordDateTimeCol = "DateTimeOriginal",
+                                 recordDateTimeFormat = "%Y-%m-%d %H:%M:%S",
+                                 species = "MYYU",
+                                 occasionLength = 4,
+                                 day1 = "station",
+                                 timeZone = "America/Vancouver",
+                                 includeEffort = FALSE,
+                                 #datesAsOccasionNames = TRUE,
+                                 #scaleEffort = TRUE,
+                                 writecsv = TRUE,
+                                 outDir = "C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/r_output/rDetHist")
+
+# 03 Detection history for MYEV
+DetHist_Myev <- detectionHistory(recordTable = all_obs_df,
+                                 camOp = detop,
+                                 stationCol = "Site",
+                                 speciesCol = "Sp_final",
+                                 recordDateTimeCol = "DateTimeOriginal",
+                                 recordDateTimeFormat = "%Y-%m-%d %H:%M:%S",
+                                 species = "MYEV",
+                                 occasionLength = 4,
+                                 day1 = "station",
+                                 timeZone = "America/Vancouver",
+                                 includeEffort = FALSE,
+                                 #datesAsOccasionNames = TRUE,
+                                 #scaleEffort = TRUE,
+                                 writecsv = TRUE,
+                                 outDir = "C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/r_output/rDetHist")
+
+# 04 Detection history for LACI
+DetHist_Laci <- detectionHistory(recordTable = all_obs_df,
+                                 camOp = detop,
+                                 stationCol = "Site",
+                                 speciesCol = "Sp_final",
+                                 recordDateTimeCol = "DateTimeOriginal",
+                                 recordDateTimeFormat = "%Y-%m-%d %H:%M:%S",
+                                 species = "LACI",
+                                 occasionLength = 4,
+                                 day1 = "station",
+                                 timeZone = "America/Vancouver",
+                                 includeEffort = FALSE,
+                                 #datesAsOccasionNames = TRUE,
+                                 #scaleEffort = TRUE,
+                                 writecsv = TRUE,
+                                 outDir = "C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/r_output/rDetHist")
+
+```
+
+
+Next, set up the covariate matrices.   
+- **Observation covariates:**  
+      1. **Wind Speed** (EnvCan stations averaged over 4d); standardized using `standardize:scale()`    
+      2. **Temperature** (EnvCan stations averaged over 4d); standardized using `standardize:scale()`   
+      3. **Temperature** (EnvCan stations averaged over 4d); standardized using `standardize:scale()`  
+      4. **Date**; standardized as a Julian day using `lubridate:yday()` and `standardize:scale()`  
+- **Site covariates:**   
+      1. **GLA** (gap light)  
+      2. **LAI.4** (leaf area index)  
+      3. **Elevation**   
+      4. **Microphone height**  
+      5. **Microphone type**  
+      6. **Detector model**   
+
+
+```{r}
+
+siteCovs <- sites_2016[,c("Site","LAI.4","LAI.5","GLA.x","Elev","det_model","mic_type","mic_ht")]
+siteCovs[,2] <- scale(siteCovs$LAI.4) # standardize covariates
+siteCovs[,3] <- scale(siteCovs$LAI.5)
+siteCovs[,4] <- scale(siteCovs$GLA.x)
+siteCovs[,5] <- scale(siteCovs$Elev)
+siteCovs[,8] <- scale(siteCovs$mic_ht)
+siteCovs_df <- as.data.frame(siteCovs)
+
+#Remove rows without fisheye images for GLA/LAI
+#siteCovs_subset <- filter(siteCovs, GLA.x != "NA")
+
+wind <- scale(sites_2016[,c("W.1","W.2","W.3","W.4","W.5","W.6","W.7","W.8","W.9","W.10","W.11","W.12","W.13","W.14")])
+#wind_ungroup <- ungroup(wind)
+wind_df <- as.data.frame(wind)
+
+temp <- scale(sites_2016[,c("T.1","T.2","T.3","T.4","T.5","T.6","T.7","T.8","T.9","T.10","T.11","T.12","T.13","T.14")])
+#temp_ungroup <- ungroup(temp)
+temp_df <- as.data.frame(temp)
+
+precip <- scale(sites_2016[,c("P.1","P.2","P.3","P.4","P.5","P.6","P.7","P.8","P.9","P.10","P.11","P.12","P.13","P.14")])
+#precip_ungroup <- ungroup(precip)
+precip_df <- as.data.frame(precip)
+
+date <- scale(sites_2016[,c("D.1","D.2","D.3","D.4","D.5","D.6","D.7","D.8","D.9","D.10","D.11","D.12","D.13","D.14")])
+#date_ungroup <- ungroup(date)
+date_df <- as.data.frame(date)
+                           
+
+obsCovs <- list(wind=wind_df, temp=temp_df, precip=precip_df, date=date_df)
+
+# Clean up Environment
+rm(siteCovs)
+rm(temp)
+rm(temp_df)
+rm(wind)
+rm(wind_df)
+rm(precip)
+rm(precip_df)
+rm(date)
+rm(date_df)
+```
+
+To do:   
+- Set up detection histories for TABR, LANO (detections outside date range)  
+- Remove NAs from observation covariates (GLA and LAI for folowing sites):  
+  *073786_SE  
+  *143338_SE  
+  *143338_NE  
+  *CTB-0713  
+  *FCB-0609  
+  *FCB-0623  
+  *FRF-0919  
+  *LWB-0528  
+  *LWB-0616  
+  *LWB-0727p1  
+  *UWB-0703  
+  *UWB-0707  
+  *UWB-0729  
+
+### Occupancy Model 01: ___Myotis lucifugus___ (MYLU)
+
+Here I run preliminary occupancy models and model selection for the endangered MYLU. For this species I show the full code, but remove it for other species below.  
+
+You can also embed plots, for example:
+
+```{r warning=FALSE}
+occMYLU <- read_csv("C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/r_output/rDetHist/DetHist_MYLU.csv", col_names = TRUE, 
+                      col_types = cols(
+                          X1 = col_character(),
+                          o1 = col_logical(),
+                          o2 = col_logical(),
+                          o3 = col_logical(),
+                          o4 = col_logical(),
+                          o5 = col_logical(),
+                          o6 = col_logical(),
+                          o7 = col_logical(),
+                          o8 = col_logical(),
+                          o9 = col_logical(),
+                          o10 = col_logical(),
+                          o11 = col_logical(), 
+                          o12 = col_logical(),
+                          o13 = col_logical(),
+                          o14 = col_logical()), locale = default_locale(), na = c("", "NA"))
+y <- occMYLU[,2:15]
+
+names(obsCovs) <- c("wind","temp","precip","date")
+
+MyluUMF <- unmarkedFrameOccu(y = y, siteCovs = siteCovs_df, obsCovs = obsCovs)
+
+summary(MyluUMF)
+plot(MyluUMF, panels = 4)
+# Double right-hand side formula describing covariates of detection and occupancy in that order
+fm0101 <- occu(~ 1 ~ 1, MyluUMF)
+fm0102 <- occu(~ 1 ~ Elev, MyluUMF)
+fm0103 <- occu(~ 1 ~ LAI.4, MyluUMF)
+fm0104 <- occu(~ 1 ~ LAI.5, MyluUMF)
+fm0105 <- occu(~ 1 ~ GLA.x, MyluUMF)
+fm0106 <- occu(~ 1 ~ LAI.4 + GLA.x, MyluUMF)
+fm0107 <- occu(~ det_model ~ 1, MyluUMF)
+fm0108 <- occu(~ mic_type ~ 1, MyluUMF)
+fm0109 <- occu(~ det_model + mic_type ~ 1, MyluUMF)
+fm0110 <- occu(~ mic_ht ~ 1, MyluUMF)
+fm0111 <- occu(~ precip ~ 1, MyluUMF)
+fm0112 <- occu(~ temp ~ 1, MyluUMF)
+fm0113 <- occu(~ wind ~ 1, MyluUMF)
+fm0114 <- occu(~ date ~ 1, MyluUMF)
+#fm0114 <- occu(~ 1 ~precip, MyluUMF)
+#fm0114 <- occu(~ 1 ~temp, MyluUMF)
+#fm0114 <- occu(~ 1 ~wind, MyluUMF)
+#fm0114 <- occu(~ 1 ~ date, MyluUMF)
+
+#fm5 <- occu(~ 1 ~ Elev, myluUMF, starts=c(100,1000,0))# how to improve starting values?
+#fm6 <- occu(~ 1 ~ habitat, myluUMF)
+
+## Model Selection
+fmsMYLU <- fitList('psi(.)p(.)' = fm0101,
+               'psi(elevation)p(.)' = fm0102,
+#               'psi(leaf area index 4)p(.)' = fm0103,
+#               'psi(leaf area index 5)p(.)' = fm0104,
+#               'psi(gap light)p(.)' = fm0105,
+#               'psi(leaf area index 4 + gap light)p(.)' = fm0106,
+               'psi(.)p(detector model)' = fm0107,
+               'psi(.)p(mic type)' = fm0108,
+               'psi(.)p(detector + mic)' = fm0109,
+               'psi(.)p(mic height)' = fm0110,
+               'psi(.)p(precipitation)' = fm0111,
+#               'psi(.)p(temperature)' = fm0112,
+#               'psi(.)p(wind gust)' = fm0113,
+               'psi(.)p(date)' = fm0114
+               )
+modSel(fmsMYLU)
+
+# Top model
+fm0110
+
+```
+
+### Occupancy Model 02: ___Myotis yumanensis___ (MYYU)
+
+Here I run preliminary occupancy models and model selection for MYYU. Summary statistics for covariates, AIC model selection, and top model are shown below. Model code can be found [here](https://github.com/burkeprw/rsh_zool500_bats/blob/master/r_scripts/t2_occupancy/ghd02_occupancy.Rmd).    
+
+```{r echo=FALSE, warning=FALSE}
+occMYYU <- read_csv("C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/r_output/rDetHist/DetHist_MYYU.csv", col_names = TRUE, 
+                      col_types = cols(
+                          X1 = col_character(),
+                          o1 = col_logical(),
+                          o2 = col_logical(),
+                          o3 = col_logical(),
+                          o4 = col_logical(),
+                          o5 = col_logical(),
+                          o6 = col_logical(),
+                          o7 = col_logical(),
+                          o8 = col_logical(),
+                          o9 = col_logical(),
+                          o10 = col_logical(),
+                          o11 = col_logical(), 
+                          o12 = col_logical(),
+                          o13 = col_logical(),
+                          o14 = col_logical()), locale = default_locale(), na = c("", "NA"))
+y <- occMYYU[,2:15]
+
+names(obsCovs) <- c("wind","temp","precip","date")
+
+MyyuUMF <- unmarkedFrameOccu(y = y, siteCovs = siteCovs_df, obsCovs = obsCovs)
+
+summary(MyyuUMF)
+plot(MyyuUMF, panels = 4)
+# Double right-hand side formula describing covariates of detection and occupancy in that order
+fm0201 <- occu(~ 1 ~ 1, MyyuUMF)
+fm0202 <- occu(~ 1 ~ Elev, MyyuUMF)
+fm0203 <- occu(~ 1 ~ LAI.4, MyyuUMF)
+fm0204 <- occu(~ 1 ~ LAI.5, MyyuUMF)
+fm0205 <- occu(~ 1 ~ GLA.x, MyyuUMF)
+fm0206 <- occu(~ 1 ~ LAI.4 + GLA.x, MyyuUMF)
+fm0207 <- occu(~ det_model ~ 1, MyyuUMF)
+fm0208 <- occu(~ mic_type ~ 1, MyyuUMF)
+fm0209 <- occu(~ det_model + mic_type ~ 1, MyyuUMF)
+fm0210 <- occu(~ mic_ht ~ 1, MyyuUMF)
+fm0211 <- occu(~ precip ~ 1, MyyuUMF)
+fm0212 <- occu(~ temp ~ 1, MyyuUMF)
+fm0213 <- occu(~ wind ~ 1, MyyuUMF)
+fm0214 <- occu(~ date ~ 1, MyyuUMF)
+#fm0214 <- occu(~ 1 ~precip, MyyuUMF)
+#fm0214 <- occu(~ 1 ~temp, MyyuUMF)
+#fm0214 <- occu(~ 1 ~wind, MyyuUMF)
+#fm0214 <- occu(~ 1 ~ date, MyyuUMF)
+
+## Model Selection
+fmsMYYU <- fitList('psi(.)p(.)' = fm0201,
+               'psi(elevation)p(.)' = fm0202,
+#               'psi(leaf area index 4)p(.)' = fm0203,
+#               'psi(leaf area index 5)p(.)' = fm0204,
+#               'psi(gap light)p(.)' = fm0205,
+#               'psi(leaf area index 4 + gap light)p(.)' = fm0206,
+               'psi(.)p(detector model)' = fm0207,
+               'psi(.)p(mic type)' = fm0208,
+               'psi(.)p(detector + mic)' = fm0209,
+               'psi(.)p(mic height)' = fm0210,
+               'psi(.)p(precipitation)' = fm0211,
+#               'psi(.)p(temperature)' = fm0212,
+#               'psi(.)p(wind gust)' = fm0213,
+               'psi(.)p(date)' = fm0214
+               )
+modSel(fmsMYYU)
+
+# Top model
+fm0210
+
+```
+
+### Occupancy Model 03: ___Myotis evotis___ (MYEV)
+
+Here I run preliminary occupancy models and model selection for the clutter adapted forest bat MYEV.   
+
+```{r echo=FALSE, warning=FALSE}
+occMYEV <- read_csv("C:/Users/prwb/Documents/_research_projects/admin_ubc_msc/_courses_wkshp/zool500_directedstudies/deliverables/00_github_zool500_bats/r_output/rDetHist/DetHist_MYEV.csv", col_names = TRUE, 
+                      col_types = cols(
+                          X1 = col_character(),
+                          o1 = col_logical(),
+                          o2 = col_logical(),
+                          o3 = col_logical(),
+                          o4 = col_logical(),
+                          o5 = col_logical(),
+                          o6 = col_logical(),
+                          o7 = col_logical(),
+                          o8 = col_logical(),
+                          o9 = col_logical(),
+                          o10 = col_logical(),
+                          o11 = col_logical(), 
+                          o12 = col_logical(),
+                          o13 = col_logical(),
+                          o14 = col_logical()), locale = default_locale(), na = c("", "NA"))
+y <- occMYEV[,2:15]
+
+#names(obsCovs) <- c("gaplight","leafarea")
+MyevUMF <- unmarkedFrameOccu(y = y, siteCovs = siteCovs_df, obsCovs = obsCovs)
+
+summary(MyevUMF)
+plot(MyevUMF, panels = 4)
+# Double right-hand side formula describing covariates of detection and occupancy in that order
+fm0301 <- occu(~ 1 ~ 1, MyevUMF)
+fm0302 <- occu(~ 1 ~ Elev, MyevUMF)
+fm0303 <- occu(~ 1 ~ LAI.4, MyevUMF)
+fm0304 <- occu(~ 1 ~ LAI.5, MyevUMF)
+fm0305 <- occu(~ 1 ~ GLA.x, MyevUMF)
+fm0306 <- occu(~ 1 ~ LAI.4 + GLA.x, MyevUMF)
+fm0307 <- occu(~ det_model ~ 1, MyevUMF)
+fm0308 <- occu(~ mic_type ~ 1, MyevUMF)
+fm0309 <- occu(~ det_model + mic_type ~ 1, MyevUMF)
+fm0310 <- occu(~ mic_ht ~ 1, MyevUMF)
+fm0311 <- occu(~ precip ~ 1, MyevUMF)
+fm0312 <- occu(~ temp ~ 1, MyevUMF)
+fm0313 <- occu(~ wind ~ 1, MyevUMF)
+fm0314 <- occu(~ date ~ 1, MyevUMF)
+#fm0315 <- occu(~ 1 ~precip, MyevUMF)
+#fm0316 <- occu(~ 1 ~temp, MyevUMF)
+#fm0317 <- occu(~ 1 ~wind, MyevUMF)
+#fm0318 <- occu(~ 1 ~ date, MyevUMF)
+
+## Model Selection
+fmsMYEV <- fitList('psi(.)p(.)' = fm0301,
+               'psi(elevation)p(.)' = fm0302,
+#               'psi(leaf area index 4)p(.)' = fm0303,
+#               'psi(leaf area index 5)p(.)' = fm0304,
+#               'psi(gap light)p(.)' = fm0305,
+#               'psi(leaf area index 4 + gap light)p(.)' = fm0306,
+               'psi(.)p(detector model)' = fm0307,
+               'psi(.)p(mic type)' = fm0308,
+               'psi(.)p(detector + mic)' = fm0309,
+               'psi(.)p(mic height)' = fm0310,
+               'psi(.)p(precipitation)' = fm0311,
+#               'psi(.)p(temperature)' = fm0312,
+#               'psi(.)p(wind gust)' = fm0313,
+               'psi(.)p(date)' = fm0314
+               )
+modSel(fmsMYEV)
+
+```
+
+
+
+### Session Info
+
+```{r}
+sessionInfo()
+```
+
+

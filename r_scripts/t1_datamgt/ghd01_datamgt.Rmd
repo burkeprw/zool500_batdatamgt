@@ -1,0 +1,467 @@
+---
+title: "Data Management"
+author: "burkeprw"
+date: "April 04, 2018"
+output: github_document
+---
+
+### Data Preparation and Merging
+
+Standardized format and documentation methods are required for collating data from different projects. Here I identify the minimum criteria for the merging data sets and a workflow for preparing the data. Then I use the workflow in a case study to merge data from two projects. Through the case study I provide scripts for editing, organizing, and merging data tables from multiple projects.
+
+
+##### Minimum Data Criteria
+
+Data need to be in flat, tabular format. The preferred file format is comma-delimited with UTF-8 encoding. This format is machine-readable, simple, and flexible. The file name should have no special characters or spaces. An example: `data_project2018.csv`   
+
+Generally project data will come in two seperate tables: one containing **site information** and one containing **observations**. It is easiest to work with these tables individually before merging the data.  
+
+##### Example Site Data Table
+
+Station|Project|Organization|Zone|UTMe|UTMn|DateStart|DateEnd|DetModel|MicType|TrigWin|MaxLgh|SiteCov1|...   
+-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-
+PBM1805D|FWCP|SCBat|WGS84|48.000|-121.000|2017-03-15|2017-10-15|SM2|SMX-US|2|15|4.7812|0.982   
+... | | | | | | | | | | | | | 
+... | | | | | | | | | | | | |
+
+
+The site data table contains all of the spatial and contextual information about where and when sampling occurred. The minimum required site data attributes (columns) include: 
+
+  * **Station**: Unique site name for each sampling station [character, converted to factor below]   
+  * **Proj**: Unique project name or code [character, converted to factor below]   
+  * **Org**: Organization responsible for collecting the data [character]   
+  * **Datum**: Geodetic datum  [character]   
+  * **UTMe**: UTM easting, meters [integer]   
+  * **UTMn**: UTM northing, meters [integer]   
+  * **DateSt**: Date when sampling began [POSIXct YYYY-MM-DD]   
+  * **DateEnd**: Date when sampling began [POSIXct YYYY-MM-DD]      
+  * **DetMod**: Model of detector used to record data [character]     
+  * **MicType**: Microphone type used to record data [character]     
+  * **MicSens**: A measure of microphone sensitivity. [double]   
+  * **TrigWin**: The trigger window set on the detector [integer]    
+  * **MaxL**: Maximum file length, seconds [integer]    
+  * **SiteCov1**: Site covariates may include:   
+    + A measure of environmental clutter within the microphone sampling area   
+    + Percent canopy openness   
+    + Whether a sound dampener or microphone was used  
+    
+    
+##### Example Observation Data Table
+
+Station|Species|DateTime|
+-------|----|------------|
+PBM1805D|MYLU|2017-06-21 03:34:35.2219|      
+... | | |
+... | | |
+
+The site data table contains all of the spatial and contextual information about where and when sampling occurred. Note that the Station is the common attribute we will use to join the site and observation date. The formatting and station name must match in boh tables. The minimum required site data attributes (columns) include: 
+
+  * **Station**: Unique site name for each sampling station [character, converted to factor below]   
+  * **Species**: Species code (4-letter) or acoustic guild [character, converted to factor below]    
+  * **DateTime**: Date and time the observation was made [POSIXct YYYY-MM-DD HH:MM:SS.ms]   
+
+### Case Study Step 1: Read in Passive Acoustic Data from Multiple Projects
+
+The examples above include minimum criteria. Additional attributes and covariates will be useful to include for ecological modeling. Here I will prepare actual data using the minimum criteria from three projects. For each project, monitoring data was collected using passsive acoustic monitoring devices with ultrasonic microphones. Data were analyzed using automated classification software and by hand using cosistent methods.  
+
+##### 1. Fish and Wildlife Compensation Program
+  * Passive data from 23 sampling sites across 1 year [459 total sample days]   
+  
+##### 2. North American Bat Monitoring Program   
+  * Passive data from 20 sampling sites across 2 years [100 total sample days]   
+  * Missing data from additional 4 sampling sites across 2 years: Mission-086074    
+  * Additional Monitoring in 2018 planned 
+
+##### 3. Investment Agriculture Foundation
+  * Passive data available from 3 sampling sites across 1 year [274 total sample days]   
+  * __Not analyzed: to be incorporated later__
+  * Additional Monitoring in 2018 planned
+
+See **[Figure 1](figures/nabat_2017_BCBAT.pdf)** showing sampling locations.    
+
+```{r message=FALSE, warning=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(readr))
+suppressPackageStartupMessages(library(rgdal)) # for spatial points conversion
+suppressPackageStartupMessages(library(sp)) # for spatial points conversion
+suppressPackageStartupMessages(library(forcats))
+suppressPackageStartupMessages(library(unmarked))
+```
+
+ 
+First, I read in the site data from Project 1 (FWCP). The resulting data frame contains 22 sites with 12 attributes (columns).   
+
+Use `read_csv()` (located in the `tidyverse` package) and identify the type of data within each column, including date formats and "NA" and "NaN" strings. The dates are converted to an integer representing the day of the year in decimal format to facilitate comparisons across years. Finally, use `dplyr::select()` (located in the `tidyverse` package) to choose the attributes (columns) to retain, to reorder the columns, and to rename the column headings. For example: `%>% select(Station=Site, Project=Proj, ... )`.   
+
+
+```{r warning=FALSE, message=FALSE}
+sites.df <- read_csv("./data/dat_pbmsites_fwcp.csv", col_names = TRUE, 
+                       col_types = cols_only(
+                           Proj = col_character(),
+                           Site = col_character(),
+                           Site_name = col_character(),
+                           utm_zone = col_character(),
+                           utm_easting = col_double(),
+                           utm_northing = col_double(),
+                           Elev = col_double(),
+                           Surv_yr = col_integer(),
+                           start_date = col_date(format = "%Y-%m-%d"),
+                           end_date = col_date(format = "%Y-%m-%d"),
+                           Problem1_from = col_date(format = "%Y-%m-%d"),
+                           Problem1_to = col_date(format = "%Y-%m-%d"),
+                           init = col_character(),
+                           det_model = col_character(),
+                           det_sn = col_character(),
+                           mic_type = col_character(),
+                           mic_sn = col_character(),
+                           windsc = col_logical(),
+                           dampn = col_logical(),
+                           mic_sens = col_double(),
+                           rec_mode = col_character(),
+                           trig_win = col_integer(),
+                           max_lngth = col_integer(),
+                           mic_ht = col_double(),
+                           qual_clutt = col_double(),
+                           dens = col_logical(),
+                           GLA = col_double(),
+                           LAI.4 = col_double(),
+                           LAI.5 = col_double(),
+                           noise = col_character(),
+                           comments = col_character() ),
+                       locale = default_locale(), na = c("NaN", "NA")) 
+sites.df$Org<-"SCBats" # add a column to identify the organization responsible for collecting the data
+sites.df$Datum<-"WGS84" # add a column to identify the map datum for the project
+
+sites_fwcp_tidy <- sites.df %>%
+  mutate(NOYstart = yday(start_date)) %>%
+  mutate(NOYend = yday(end_date)) %>%
+  mutate(SampDay = NOYend - NOYstart - 1) %>%
+  select(Station = Site,
+         Proj,Org,Datum,
+         UTMe = utm_easting,
+         UTMn = utm_northing,
+         DateStart = start_date,
+         DateEnd = end_date,
+         MicTyp = mic_type,
+         DetMod = det_model,
+         TrgWin = trig_win,
+         MaxL = max_lngth)
+
+dim(sites_fwcp_tidy)
+```
+
+
+Here I read the obesrvation data for Project 1 (NABat). Our resulting data frame will have 12,944 observations in 5 columns. Remember to:   
+  * Identify data types   
+  * Make adjustments using [tidy data](http://vita.had.co.nz/papers/tidy-data.html) practices (Wickham 2014)   
+  * Calculate the number of samples (e.g. nights of completed recording)  
+  * Rename, reorganize, and identify the type of data within each column  
+
+
+```{r warning=FALSE, message=FALSE}
+obs.df <- read_csv('./data/dat_pbmobserv_fwcp.csv', col_names = TRUE, 
+                      col_types = cols_only(
+                          Site = col_character(),
+                          file_zc = col_character(),
+                          type = col_integer(),
+                          ID = col_integer(),
+                          Divrat = col_integer(),
+                          Date = col_date(),
+                          Night = col_date(),
+                          DateTimeOriginal = col_datetime(format = "%Y-%m-%d %H:%M:%S"),
+                          Elev = col_double(),
+                          Tape = col_character(),
+                          Note = col_character(),
+                          Sp_final = col_character()),
+                      locale = default_locale(), na = c("NaN", "NA")) 
+
+obs_fwcp_tidy <- obs.df%>%
+  mutate(NOY = yday(Night)) %>% # Converts date to decimal night of the year (integer)
+  mutate(Count = 1) %>% # add column for number of bat passes. Each observation in data is one pass
+  select(Station = Site,
+         Species = Sp_final,
+         DateTime = DateTimeOriginal,
+         NOY,Count)
+  #filter(Species_final == "TABR" | Species_final == "MYLU" | Species_final == "LANO") # filter for species of interest
+
+dim(obs_fwcp_tidy)
+```
+
+
+These methods are used to read in data from all other projects. This occurs under the hood for readability here, but the same script may be used for other data sets. Be mindful of data types and column headings.      
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, results="hide"}
+sites.df <- read_csv('./data/dat_pbmsites_nabat.csv', col_names = TRUE,
+                      col_types = cols_only(
+                        Proj = col_character(),
+                        Site = col_character(),
+                        Site_name = col_character(),
+                        Latitude = col_double(),
+                        Longitude = col_double(),
+                        utm_zone = col_character(),
+                        utm_easting = col_double(),
+                        utm_northing = col_double(),
+                        Surv_yr = col_integer(),
+                        start_date = col_date(format = "%Y-%m-%d"),
+                        end_date = col_date(format = "%Y-%m-%d"),
+                        Problem1_from = col_date(format = "%Y-%m-%d"),
+                        Problem1_to = col_date(format = "%Y-%m-%d"),
+                        init = col_character(),
+                        det_model = col_character(),
+                        det_sn = col_character(),
+                        mic_type = col_character(),
+                        mic_sn = col_character(),
+                        mic_cal_min = col_double(),
+                        mic_cal_max = col_double(),
+                        windsc = col_logical(),
+                        dampn = col_logical(),
+                        rec_mode = col_character(),
+                        trig_win = col_integer(),
+                        max_lngth = col_integer(),
+                        mic_ht = col_double(),
+                        qual_clutt = col_double(),
+                        dens = col_logical(),
+                        GLA = col_double(),
+                        LAI.4 = col_double(),
+                        LAI.5 = col_double(),
+                        noise = col_character(),
+                        comments = col_character() ),
+                      locale = default_locale(), na = c("", "NA")) 
+sites.df$Org<-"SCBats" # add a column to identify the organization responsible for collecting the data
+sites.df$Datum<-"WGS84" # add a column to identify the map datum for the project
+
+sites_nabat_tidy <- sites.df %>%
+  mutate(NOYstart = yday(start_date)) %>%
+  mutate(NOYend = yday(end_date)) %>%
+  mutate(SampDay = NOYend - NOYstart - 1) %>%
+  select(Station = Site,
+         Proj,Org,Datum,
+         UTMe = utm_easting,
+         UTMn = utm_northing,
+         DateStart = start_date,
+         DateEnd = end_date,
+         MicTyp = mic_type,
+         DetMod = det_model,
+         TrgWin = trig_win,
+         MaxL = max_lngth)
+
+dim(sites_nabat_tidy)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, results="hide"}
+obs.df <- read_csv('./data/dat_pbmobserv_nabat.csv', col_names = TRUE, 
+                      col_types = cols_only(
+                          Site = col_character(),
+                          file_zc = col_character(),
+                          type = col_integer(),
+                          ID = col_integer(),
+                          Divrat = col_integer(),
+                          Date = col_date(),
+                          Night = col_date(),
+                          DateTimeOriginal = col_datetime(format = "%Y-%m-%d %H:%M:%S"),
+                          Elev = col_double(),
+                          Tape = col_character(),
+                          Note = col_character(),
+                          Sp_final = col_character()),
+                      locale = default_locale(), na = c("NaN", "NA")) 
+
+obs_nabat_tidy <- obs.df %>%
+  mutate(NOY = yday(Night)) %>% # Converts date to decimal night of the year (integer)
+  mutate(Count = 1) %>% # add column for number of bat passes. Each observation in data is one pass
+  select(Station = Site,
+         Species = Sp_final,
+         DateTime = DateTimeOriginal,
+         NOY,Count)
+  #filter(Species_final == "TABR" | Species_final == "MYLU" | Species_final == "LANO") # filter for species of interest
+
+dim(obs_nabat_tidy)
+```
+
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, results="hide"}
+sites.df <- read_csv('./data/dat_pbmsites_iaf.csv', col_names = TRUE, 
+                       col_types = cols_only(
+                           Proj = col_character(),
+                           Site = col_character(),
+                           Site_name = col_character(),
+                           utm_zone = col_character(),
+                           utm_easting = col_double(),
+                           utm_northing = col_double(),
+                           Elev = col_double(),
+                           Surv_yr = col_integer(),
+                           start_date = col_date(format = ""),
+                           end_date = col_date(format = ""),
+                           Problem1_from = col_date(format = ""),
+                           Problem1_to = col_date(format = ""),
+                           init = col_character(),
+                           det_model = col_character(),
+                           det_sn = col_character(),
+                           mic_type = col_character(),
+                           mic_sn = col_character(),
+                           windsc = col_logical(),   # not consistent measurement with NABat dataset
+                           dampn = col_logical(),
+                           mic_cal_min = col_double(),
+                           mic_cal_max = col_double(),
+                           rec_mode = col_character(),
+                           trig_win = col_integer(),
+                           max_lngth = col_integer(),
+                           mic_ht = col_double(),
+                           qual_clutt = col_double(),
+                           dens = col_logical(),
+                           GLA = col_double(),
+                           LAI.4 = col_double(),
+                           LAI.5 = col_double(),
+                           noise = col_character(),
+                           comments = col_character() ),
+                       locale = default_locale(), na = c("", "NA")) 
+sites.df$Org<-"SCBats" # add a column to identify the organization responsible for collecting the data
+sites.df$Datum<-"WGS84" # add a column to identify the map datum for the project
+
+sites_iaf_tidy <- sites.df %>%
+  mutate(NOYstart = yday(start_date)) %>%
+  mutate(NOYend = yday(end_date)) %>%
+  mutate(SampDay = NOYend - NOYstart - 1) %>%
+  select(Station = Site,
+         Proj,Org,Datum,
+         UTMe = utm_easting,
+         UTMn = utm_northing,
+         DateStart = start_date,
+         DateEnd = end_date,
+         MicTyp = mic_type,
+         DetMod = det_model,
+         TrgWin = trig_win,
+         MaxL = max_lngth)
+
+dim(sites_iaf_tidy)
+```
+
+
+### Case Study Step 2: Combine Data Sets   
+
+The next step is to combine the data sets, make categorical variables factors, and save the data frame to file. A few things to keep in mind: 
+  * First bind the site data frames together from multiple projects
+  * Use `dplyr::bind_rows()`
+  * Confirm that the number of columns (attributes) for sites is 12 and for observations is 5
+
+```{r}
+sites_bats <- bind_rows(sites_nabat_tidy, sites_fwcp_tidy, sites_iaf_tidy)
+obs_bats <- bind_rows(obs_nabat_tidy, obs_fwcp_tidy)
+
+dim(sites_bats)
+dim(obs_bats)
+```
+
+Then join the site and observation data using `dplyr:full_join()` which preserves all rows and columns. Calculate metrics for the number of sample days (**SampDays**) and the sample effort adjusted for the amount of days sampled (**SampEft**). Finally, write the files using `saveRDS()` to preserve the factor levels
+
+```{r warning=FALSE}
+
+all_dat <- full_join(obs_bats,sites_bats, by = "Station") %>%
+  group_by(Station) %>%
+  mutate(NumFiles = length(NOY)) %>%
+  mutate(SampDays = as.integer(DateEnd - DateStart)) %>%
+  mutate(SampEft = NumFiles / SampDays)
+
+all_dat_fct <- all_dat %>%
+  mutate(Proj.fct = as_factor(Proj)) %>%
+  mutate(Station.fct = as_factor(Station))
+
+str(all_dat_fct)
+
+```
+
+Finally, the merged data is saved as a file using `saveRDS()`. The file `all_obs_full.rds` is a serialzed object in a binary file, only readable in R. You may want to also write the file as a csv, but the factor levels will be lost. Better is to save the '.rds' and use `readRDS()` to read the file.   
+
+The file contains complete information about the location and bat species detected at passive bioacoustic monitors recording ultrasond from multiple projects in British Columbia.  
+
+```{r}
+
+all_dat_comp <- all_dat_fct[complete.cases(all_dat_fct[ , 3]), ] # This removes rows with no species ID
+
+saveRDS(all_dat_comp, "./rOutput/all_obs_comp.rds")
+#write_csv(all_obs_comp, "./rOutput/all_obs.csv")
+#all_obs_full_read <- readRDS("./rOutput/all_obs_full.rds")
+```
+
+
+### Data exploration and QAQC   
+
+Briefly, I will explore these data and summarize by site and species.   
+
+```{r message=FALSE}
+
+str(all_dat_comp) # Step 1. Check the data frame structure
+with(all_dat_comp, print(unique(Station))) # Step 2. Identify number of independent sites
+summary(all_dat_comp) # Step 3. Summary
+summary(all_dat_comp$NOY)
+summary(all_dat_comp$Species)
+unique(all_dat_comp$Station)
+
+summ <- all_dat_comp %>%
+  #filter(Surv_yr == 2016) %>% #Removes sites with no species obs
+  filter(Station != "FRF-0802" & Station != "LWB-0727p1" & Station != "LWB-0729p2" & Station != "LWB-0919") #Removes sites with no species obs
+with(summ, print(unique(Station))) 
+
+# IAF <- 89 + 95 + 90 #274
+# NABat <- 10 + 10 + 7.5 + 8 + 7.5 + 7 + 9 + 8 + 8 + 9 + 8 + 8 #100
+# FWCP <- sum(summ_all_a$SampleDays) - 274 - 100 #459
+
+summ_a <- summ %>%
+  group_by(Station) %>%
+  summarize(FileCount=length(Count),NOYstart=min(NOY), SampleDays=mean(SampDays), AdjustedEffort=mean(SampEft))
+head(summ_a)
+
+knitr::kable(summ_a)
+
+summ_b <- summ %>%
+  group_by(Species) %>%
+  summarize(FileCount=length(Count), NOYstart=min(NOY), SampleDays = mean(SampDays), AdjustedEffort = mean(SampEft))
+head(summ_b)
+
+```
+
+
+
+A plot of the count of observations across sites shows uneven activity across sampling locations. The sites are ordered by the first day of sampling.   
+
+
+```{r message=FALSE}
+p1 <- summ %>%
+    ggplot(aes(x=fct_reorder(Station.fct,NOY))) +
+    geom_bar() +
+    scale_x_discrete("Sample Site") +
+    scale_y_continuous("Count of Observations") +
+   theme(axis.text.x = element_text(angle=60, hjust=1, size=8))
+p1
+
+```
+
+A histogram of sampling effort across time shows uneven activity across sampling locations. The sites are ordered by the first day of sampling.   
+
+
+```{r message=FALSE}
+p2 <- summ %>%
+    ggplot(aes(NOY)) + geom_histogram(binwidth = 5) +
+    scale_x_discrete("Night of Year") +
+    scale_y_continuous("Count of Observations") +
+    ggtitle("Histogram of Sample Nights Across 2016")
+p2 + theme_bw()
+
+```
+
+
+
+### Literature Cited
+
+1. H. Wickham, Tidy Data. J. Stat. Softw. 59 (2014), doi:10.18637/jss.v059.i10.
+
+### Session Info
+
+```{r}
+sessionInfo()
+```
+
+
+

@@ -1,0 +1,32 @@
+﻿Passive bioacoustic monitoring was conducted between 12 May 2016 and 10 January 2017 in the Wahleach watershed. The Wahleach watershed is located within the Cheam Range, part of the Chilliwack Group of the Canadian North Cascade Mountains, in southwest British Columbia (BC), Canada. Wahleach Creek, also known as Jones Creek, flows north into the Fraser River. Wahleach Creek drains a 13,750 hectare (ha) watershed which includes 273 km of perennial streams, 6.4 ha open standing water, and 105.9 ha of glacial ice. Elevations in the watershed range from 27 meters (m) above mean sea level at the confluence of Wahleach Creek with the Fraser River to 2,431 m at the summit of Welch Peak. The watershed contains nine creek basins, two wetland complexes, the Wahleach Reservoir, and a network of riparian habitats surrounding creeks and headwater tributaries.
+
+Sampling locations were selected using a generalized random-tessellation stratified (GRTS) survey design using the Spatial Survey Design and Analysis “spsurvey” statistical package (Kincaid & Olsen 2016) in R (R Development Core Team 2016). Stratification was based on terrestrial ecosystem mapping (TEM) units (Green 2003b) delineated for the Hope IFPA (see Figure I-2). Sampling locations were spatially balanced to ensure sampling represented multiple habitat types across all creek basins in the Wahleach watershed (Stevens & Olsen 2004).
+
+Passive bioacoustic equipment was deployed at 19 monitoring stations in riparian and wetland habitats (Figure V-4). Each station consisted of one Wildlife Acoustics Song Meter SM2BAT192 or SM3BAT monitor with SMM-U1 or SMX-US ultrasonic microphones powered by external sealed lead acid batteries charged by 20-watt solar panels. Monitoring stations were deployed using best practices to maximize detection of high quality free-flying foraging calls to support accurate species identification (Loeb et al. 2015; Craig & Lausen 2016). Stations were deployed in areas of low vegetative clutter, away from open water, with an elevated microphone 5 – 10m above ground level. At each station, a metric of relative clutter was estimated and canopy structure was calculated using Gap Light Analyzer (Frazer et al. 1999).
+
+Monitoring stations recorded full-spectrum bat echolocation calls autonomously each night beginning 30 minutes before sunset and ending 30 minutes after sunrise, providing a continuous record of bat activity within 40 – 60 m of the microphone. Monitoring occurred within three periods coinciding with bat phenology in the Wahleach watershed: 1) spring migration and early pregnancy: Mid-March to mid-June; 2) birthing and pup rearing: Mid-June to the first week of August; 3) pup volancy, swarming, and onset to hibernation: mid- August to the end of October; and 4) overwinter: November through mid-March.
+Echolocation call files were processed in Kaleidoscope Version 4.0.4 (Wildlife Acoustics 2016) using advanced signal processing and converted from full-spectrum to zero-cross. Files were batch processed using filters and hand-vetted by a biologist trained in identification of acoustic files using AnalookW 4.1z (Corben 2015). 
+
+Bat acoustic data summaries are archived with the Bat Acoustic Monitoring Portal (BatAMP) on Data Basin and with the Global Biodiversity Information Facility.
+
+
+Literature Cited:
+
+Corben, C. (2015). AnalookW Version 4.1z (20 September 2015).
+
+Craig, J. & Lausen, C. (2016). NABat Program Field Guide for British Columbia.
+
+Frazer, G., Canham, C. & Lertzman, K. (1999). Gap Light Analyzer (GLA), Version 2.0: Imaging software to extract canopy structure and gap light transmission indices from true-colour fisheye photographs, users manual and program documentation.
+
+Kincaid, T.M. & Olsen, A.R. (2016). spsurvey: Spatial Survey Design and Analysis.
+
+Loeb, S.C., Rodhouse, T.J., Ellison, L.E., Lausen, C.L., Reichard, J.D., Irvine, K.M., Ingersoll, T.E., Coleman, J.T.H., Thogmartin, W.E., Sauer, J.R., Francis, C.M., Bayless, M.L., Stanley, T.R. & Johnson, D.H. (2015). A Plan for the North American Bat Monitoring Program ( NABat ), 112.
+
+Green, R.N. (2003b). Hope Innovative Forestry Practices Agreement (IFPA) Terrestrial Ecosystem Mapping with Wildlife Interpretations.
+
+R Development Core Team. (2016). R: A language and environment for statistical computing.
+
+Stevens, D.L. & Olsen, A.R. (2004). Spatially Balanced Sampling of Natural Resources. J. Am. Stat. Assoc.,
+99, 262–278.
+
+Wildlife Acoustics. (2016). Kaleidoscope. Version 4.0.4.

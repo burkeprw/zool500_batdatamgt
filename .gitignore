@@ -1,0 +1,14 @@
+.Rproj.user
+.Rproj
+.Rhistory
+.RData
+.Ruserdata
+.html
+./_data_NOT_SHARED
+./r_scripts/t1_datamgt/data/
+./r_scripts/t1_datamgt/data/dat_pbmobserv_fwcp.csv
+./r_scripts/t1_datamgt/data/dat_pbmobserv_nabat.csv
+./r_scripts/t1_datamgt/data/dat_pbmsites_fwcp.csv
+./r_scripts/t1_datamgt/data/dat_pbmsites_iaf.csv
+./r_scripts/t1_datamgt/data/dat_pbmsites_nabat.csv
+

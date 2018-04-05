@@ -11,4 +11,6 @@
 ./r_scripts/t1_datamgt/data/dat_pbmsites_fwcp.csv
 ./r_scripts/t1_datamgt/data/dat_pbmsites_iaf.csv
 ./r_scripts/t1_datamgt/data/dat_pbmsites_nabat.csv
-
+_data_NOTSHARED
+data_copy
+zool500_batdatamgt.Rproj

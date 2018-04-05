@@ -9,7 +9,7 @@ Last modified: ___2018-Apr-04___
 
 ### Task Summary
 
-[Scripts and comments for managing and merging bioacoustic datasets here](https://github.com/burkeprw/rsh_zool500_bats/blob/master/r_scripts/t1_datamgt/ghd01_datamgt.md).
+[Scripts and comments for managing and merging bioacoustic datasets here](https://github.com/burkeprw/zool500_batdatamgt/blob/master/r_scripts/t1_datamgt/ghd01_datamgt.md).
 
 To summarize the data, we have:
 
@@ -26,7 +26,7 @@ To summarize the data, we have:
 
 
 **Figure 1-2:** Periods When Monitoring Occurred (Red) for each Sampling Station in 2016
-![alt text](ghd01_tidydata_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-3-1.png)
+![alt text](ghd01_datamgt_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-3-1.png)
 
 **Table 1-1:** Number of Acoustic Files and Effort at Sampling Stations in 2016
 

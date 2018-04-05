@@ -5,7 +5,7 @@ Last modified: ___2018-Apr-03___
 
 ## Task 4: Data archived through the Environmental Data Initiative (EDI)
 
-The purpose of this task is to contribute to transpareny and reproducibility in science through public data archival. Data for this project is available to researchers, managers, practitioners and the general public without use restrictions at the [Environmental Data Initiative](https://portal.edirepository.org/nis/home.jsp). Additionally, the code and procedures for upload are provided [here](https://github.com/burkeprw/rsh_zool500_bats/blob/master/r_scripts/t4_dataarchive/01_EML_dataarchive.R) for others to use.
+The purpose of this task is to contribute to transpareny and reproducibility in science through public data archival. Data for this project is available to researchers, managers, practitioners and the general public without use restrictions at the [Environmental Data Initiative](https://portal.edirepository.org/nis/home.jsp). Additionally, the code and procedures for upload are provided [here](https://github.com/burkeprw/zool500_batdatamgt/blob/master/r_scripts/t3_dataarchive/01_EML_dataarchive.R) for others to use.
 
 **Data DOI: xxxx-xxx-x**
 
@@ -16,7 +16,7 @@ Data and metadata (the data package) for the project are archived at the [Enviro
 
 ### Task Summary
 
-[Scripts and comments for EDI Data Archive are  here](https://github.com/burkeprw/rsh_zool500_bats/blob/master/r_scripts/t3_dataarchive/01_EML_dataachive.R).
+[Scripts and comments for EDI Data Archive are  here](https://github.com/burkeprw/zool500_batdatamgt/blob/master/r_scripts/t3_dataarchive/01_EML_dataarchive.R).
 
 Data uploaded: XXX records, XX sample locations, Dates start-end, etc.  
 

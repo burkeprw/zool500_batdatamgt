@@ -2,10 +2,7 @@
 ## P Burke
 ## Training at ESA 2017: Workshop to Archive Data Environmetal Data Initiative
 ## Date Created: 2018 April 03
-## Date Modified: 2018 April 03
-
-
-setwd("~/_research_projects/_courses_wkshp_meetings/ubc_zool500_directedstudies/deliverables/00_github_zool500_bats")
+## Last Modification: 2018 April 05
 
 #install_github("EDIorg/EMLassemblyline", build_vignettes = TRUE, force = TRUE)
 library(EML)
@@ -13,9 +10,9 @@ library(devtools)
 library(EMLassemblyline)
 
 # Import the templates
-import_templates("~/_research_projects/_courses_wkshp_meetings/ubc_zool500_directedstudies/deliverables/00_github_zool500_bats/data_copy/eml",
+import_templates("./r_scripts/t3_dataarchive/eml",
                  license="CCBY",
-                 data.files = c("coaf17w1211_pbmobserv","coaf17w1211_pbmsites"))
+                 data.files = c("dat_coaf17w1211_pbmsites","dat_coaf17w1211_pbmobserv"))
 
 view_instructions()
 
@@ -69,110 +66,68 @@ end_date <- "2017-01-10"
 # south of the equator are prefixed with a minus sign (i.e. dash -). A detailed 
 # list of sampling site coordinates can be supplied by using the 
 # extract_geocoverage() function.
-# 
-# coordinate_north <- 69.0
-# coordinate_east <- 28.53
-# coordinate_south <- 28.38
-# coordinate_west <- -119.95
 
 geographic_location <- "North America"
 
-coordinate_north <- 
-coordinate_east <- 
-coordinate_south <-
-coordinate_west <- 
+coordinate_north <- 49.33
+coordinate_east <- -121.49
+coordinate_south <- 49.13
+coordinate_west <- -121.73
   
-  
-  # Provide information on funding of this work. If several grants were involved,
-  # list the main grant first.
-  #
-  # Example
-  #
-  # funding_title = "Collaborative research: Building analytical, synthesis, and human network skills needed for macrosystem science: A next generation graduate student training model based on GLEON"
-  # 
-  # funding_grants = "National Science Foundation 1137327 and 1137353"
-  
-funding_title = ""
+# Provide information on funding of this work. If several grants were involved,
+# list the main grant first.
 
-funding_grants = ""
+funding_title = "Conserving Riparian Habitats and Species-at-Risk in Wahleach Watershed"
+
+funding_grants = "Fish and Wildlife Compensation Program COA-F17-W-1211"
 
 
 # Specify whether data collection for this dataset is "ongoing" or "completed".
-#
-# Example:
-# 
-# maintenance_description <- "completed"
 
-maintenance_description <- ""  
+maintenance_description <- "completed"  
 
 
 # Enter information about the system you are publishing this dataset under. 
 # If you have not been provided a value for this field by EDI staff, enter the 
 # default value "edi".
-#
-# Example:
-#
-# root_system <- "edi"
 
-root_system <- ""
+root_system <- "edi"
 
 
 # Enter your user ID. If you haven't received a user ID from EDI staff, use 
 # the default value "name".
-#
-# Example:
-#
-# user_id <- "clnsmith"
 
-user_id <- ""
+user_id <- "name"
 
 
 # Enter the author system your user ID is associated with. If you haven't 
 # received a author system specification from EDI staff, use the default value 
 # "edi".
-# 
-# Example:
-#
-# author_system <- "edi"
 
-author_system <- ""
+author_system <- "edi"
 
 
 # Enter the data package ID. If you have not been provided a package ID from 
 # EDI staff, enter the default value "edi.1.1".
-#
-# Example:
-#
-# data_package_id <- "edi.8.2"
 
-data_package_id <- ""
-
-
+data_package_id <- "edi.1.1"
 
 
 # Set data table parameters ---------------------------------------------------
 
 
 # Enter the full name(s) of your data tables as a combined vector.
-#
-# Example:
-#
-# table_names <- c("gleon_chloride_concentrations.csv",
-#                  "gleon_chloride_lake_characteristics.csv")
 
-table_names <- c("")
+table_names <- c("dat_coaf17w1211_pbmobserv.csv",
+                 "dat_coaf17w1211_pbmsites.csv")
 
 
 # Provide a brief descriptions for your data tables. If more than one data 
 # table, then combine your descriptions into a vector (order must follow that 
 # listed in the table_names object).
-#
-# Example:
-#
-# data_table_descriptions <- c("Long term chloride concentration data from 529 lakes and reservoirs around North America and Europe.",
-#                                    "Lake characteristics, including climate, road density, and impervious surface data.")
 
-data_table_descriptions <- c("")
+data_table_descriptions <- c("Site characteristics for sample stations, including spatail information, biogeographic variables, and equipment settings",
+                             "Species detections and time stamps from passive bioacoustic data, identified by visual analysis from a trained observer")
 
 
 # Enter the URLs of the data tables if you will have them stored on a publicly 
@@ -181,11 +136,6 @@ data_table_descriptions <- c("")
 # tables to PASTA, then leave this object empty (i.e. ""), and enter a value 
 # for storage_type below. If more than one data table, then combine your URLs 
 # into a vector (order must follow that listed in the table_names object).
-#
-# Example:
-#
-# data_table_urls <- c("https://lter.limnology.wisc.edu/sites/default/files/data/gleon_chloride/gleon_chloride_concentrations.csv",
-#                      "https://lter.limnology.wisc.edu/sites/default/files/data/gleon_chloride/gleon_chloride_lake_characteristics.csv")
 
 data_table_urls <- c("")
 
@@ -194,27 +144,17 @@ data_table_urls <- c("")
 # URL), describe the medium on which the data is stored. If more than one data 
 # table, then combine your storage types into a vector (order must follow that 
 # listed in the table_names object).
-#
-# Example:
-#
-# storage_type <- ("Departmental server")
-#
 
-storage_type <- c("")
-
+storage_type <- c("External Hard Drive")
 
 
 # Define the number of header lines of your data table(s). This is the number of 
 # lines prior to the beginning of data. If there is more than one data table, 
 # then combine these values into a vector (order must follow that listed in the 
 # table_names object).
-#
-# Example:
-#
-# num_header_lines <- c("1", 
-#                       "1")
 
-num_header_lines <- c("")
+num_header_lines <- c("1", 
+                       "1")
 
 
 # Define the end of line specifier for your data table(s). This character 
@@ -222,38 +162,26 @@ num_header_lines <- c("")
 # Windows, then enter "\\r\\n". If you are using a Mac OS then use the value 
 # "\\n". If there is more than one data table, then combine these values into 
 # a vector (order must follow that listed in the table_names object).
-#
-# Example:
-#
-# record_delimeter <- c("\\r\\n",
-#                       "\\r\\n")
 
-record_delimeter <- c("")
+record_delimeter <- c("\\r\\n",
+                       "\\r\\n")
 
 
 # Define the orientation of attributes in your data table. Acceptable value 
 # is "column". If there is more than one data table, then combine 
 # these values into a vector (order must follow that listed in the table_names 
 # object).
-#
-# Example:
-#
-# attribute_orientation <- c("column",
-#                            "column")
 
-attribute_orientation <- c("")
+attribute_orientation <- c("column",
+                           "column")
 
 
 # Define the field delimeter of your data tables. Acceptable values are "comma" 
 # and "tab". If there is more than one data table, then combine these values 
 # into a vector (order must follow that listed in the table_names object).
-#
-# Example:
-#
-# field_delimeter <- c("comma",
-#                      "comma")
 
-field_delimeter <- c("")
+field_delimeter <- c("comma",
+                     "comma"
 
 
 # Define the quote character used in your data tables. If the quote character 
@@ -262,13 +190,9 @@ field_delimeter <- c("")
 # data tables then leave as is. If there is more than one data table, then 
 # combine these values into a vector (order must follow that listed in the 
 # table_names object).
-#
-# Example:
-#
-# quote_character <- c("\"",
-#                      "\'")
 
-quote_character <- c("")
+quote_character <- c("\"",
+                     "\"")
 
 
 

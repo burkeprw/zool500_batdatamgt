@@ -90,7 +90,7 @@ suppressPackageStartupMessages(library(unmarked))
 ```
 
  
-First, I read in the site data from Project 1 (FWCP). The resulting data frame contains 22 sites with 12 attributes (columns).   
+First, I read in the site data from Project 1 (FWCP). The resulting data frame contains 22 sites with 13 attributes (columns).   
 
 Use `read_csv()` (located in the `tidyverse` package) and identify the type of data within each column, including date formats and "NA" and "NaN" strings. The dates are converted to an integer representing the day of the year in decimal format to facilitate comparisons across years. Finally, use `dplyr::select()` (located in the `tidyverse` package) to choose the attributes (columns) to retain, to reorder the columns, and to rename the column headings. For example: `%>% select(Station=Site, Project=Proj, ... )`.   
 
@@ -146,7 +146,8 @@ sites_fwcp_tidy <- sites.df %>%
          MicTyp = mic_type,
          DetMod = det_model,
          TrgWin = trig_win,
-         MaxL = max_lngth)
+         MaxL = max_lngth) %>%
+  mutate(SurvYr = year(DateStart))
 
 dim(sites_fwcp_tidy)
 ```
@@ -169,7 +170,7 @@ obs.df <- read_csv('./data/dat_pbmobserv_fwcp.csv', col_names = TRUE,
                           Divrat = col_integer(),
                           Date = col_date(),
                           Night = col_date(),
-                          DateTimeOriginal = col_datetime(format = "%Y-%m-%d %H:%M:%S"),
+                          DateTimeOriginal = col_datetime(format = "%Y-%m-%d %H:%M"),
                           Elev = col_double(),
                           Tape = col_character(),
                           Note = col_character(),
@@ -245,7 +246,8 @@ sites_nabat_tidy <- sites.df %>%
          MicTyp = mic_type,
          DetMod = det_model,
          TrgWin = trig_win,
-         MaxL = max_lngth)
+         MaxL = max_lngth) %>%
+  mutate(SurvYr = year(DateStart))
 
 dim(sites_nabat_tidy)
 ```
@@ -333,7 +335,8 @@ sites_iaf_tidy <- sites.df %>%
          MicTyp = mic_type,
          DetMod = det_model,
          TrgWin = trig_win,
-         MaxL = max_lngth)
+         MaxL = max_lngth) %>%
+  mutate(SurvYr = year(DateStart))
 
 dim(sites_iaf_tidy)
 ```
@@ -348,10 +351,15 @@ The next step is to combine the data sets, make categorical variables factors, a
 
 ```{r}
 sites_bats <- bind_rows(sites_nabat_tidy, sites_fwcp_tidy, sites_iaf_tidy)
+write_csv(sites_bats,"./rOutput/all_sites.csv", na = "NA", append = F, col_names =T)
 obs_bats <- bind_rows(obs_nabat_tidy, obs_fwcp_tidy)
+write_csv(obs_bats,"./rOutput/all_obs.csv", na = "NA", append = F, col_names =T)
 
 dim(sites_bats)
 dim(obs_bats)
+
+rm(obs.df,obs_fwcp_tidy,obs_nabat_tidy)
+rm(sites.df,sites_fwcp_tidy,sites_iaf_tidy,sites_nabat_tidy)
 ```
 
 Then join the site and observation data using `dplyr:full_join()` which preserves all rows and columns. Calculate metrics for the number of sample days (**SampDays**) and the sample effort adjusted for the amount of days sampled (**SampEft**). Finally, write the files using `saveRDS()` to preserve the factor levels
@@ -397,7 +405,7 @@ with(all_dat_comp, print(unique(Station))) # Step 2. Identify number of independ
 summary(all_dat_comp) # Step 3. Summary
 summary(all_dat_comp$NOY)
 summary(all_dat_comp$Species)
-unique(all_dat_comp$Station)
+unique(all_dat_comp$Species)
 
 summ <- all_dat_comp %>%
   #filter(Surv_yr == 2016) %>% #Removes sites with no species obs

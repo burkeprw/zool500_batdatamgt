@@ -2,21 +2,14 @@
 ## P Burke
 ## Training at ESA 2017: Workshop to Archive Data Environmetal Data Initiative
 ## Date Created: 2018 April 03
-## Last Modification: 2018 April 05
+## Last Modification: 2018 April 09
 
+#library(devtools)
 #install_github("EDIorg/EMLassemblyline", build_vignettes = TRUE, force = TRUE)
 library(EML)
-library(devtools)
 library(EMLassemblyline)
 
-# Import the templates
-import_templates("./r_scripts/t3_dataarchive/eml",
-                 license="CCBY",
-                 data.files = c("dat_coaf17w1211_pbmsites","dat_coaf17w1211_pbmobserv"))
-
-view_instructions()
-
-
+##----------------------
 ## EML Configuration
 
 # The configuration file was provided by EDI during the 2017 ESA Training
@@ -181,7 +174,7 @@ attribute_orientation <- c("column",
 # into a vector (order must follow that listed in the table_names object).
 
 field_delimeter <- c("comma",
-                     "comma"
+                     "comma")
 
 
 # Define the quote character used in your data tables. If the quote character 
@@ -195,5 +188,14 @@ quote_character <- c("\"",
                      "\"")
 
 
+# View and search the standard units dictionary
+view_unit_dictionary()
 
+# View documentation for this function
+?define_catvars
 
+# Run this function for your dataset\
+# NOTE: didn't work when both data files were in directoy
+#       So moved one data file to temp directory to run the following function:
+
+define_catvars(path = "C:/_git_burkeprw/zool500_batdatamgt/r_scripts/t3_dataarchive/eml/")

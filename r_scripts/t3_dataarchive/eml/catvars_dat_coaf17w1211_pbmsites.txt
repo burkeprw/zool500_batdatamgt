@@ -1,0 +1,4 @@
+attributeName	code	definition
+windsc	Y	Yes a windscreen was used
+dampn	N	No a sound dampener was not used
+dampn	Y	Yes a sound dampener was used

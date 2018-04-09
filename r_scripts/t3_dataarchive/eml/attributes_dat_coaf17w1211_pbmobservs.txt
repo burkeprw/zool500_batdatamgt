@@ -1,0 +1,6 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+Site	The unique alphanumeric code identifying the sampling station which is repeatedly sampled	character			NA	Not available
+Night	Night sampling began (generally 30 prior to sunset through 30 after sunrise)	Date		YYYY-MM-DD	NA	Not available
+Time	Time of day recording was made on 24 hour clock	Date		hh:mm:ss	NA	Not available
+DateTimeOriginal	Timestamp of the recording	Date		YYYY-MM-DD hh:mm	NA	Not available
+SpeciesID	Species identification made a trained observer using zero-cross files in AnalookW 4.1z	character			NA	Not available

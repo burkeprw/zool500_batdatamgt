@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packageId="edi.1.1" system="edi" xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1  http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd">
+  <access scope="document" order="allowFirst" authSystem="https://pasta.edirepository.org/authentication">
+    <allow>
+      <principal>uid=name,o=LTER,dc=ecoinformatics,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>public</principal>
+      <permission>read</permission>
+    </allow>
+  </access>
+  <dataset>
+    <title>Fish and Wildlife Compensation Program: Local bat records from the Wahleach Creek Drainage using passive bioacoustic monitoring devices in British Columbia: 2016</title>
+    <creator>
+      <individualName>
+        <givenName>Patrick</givenName>
+        <givenName>RW</givenName>
+        <surName>Burke</surName>
+      </individualName>
+      <organizationName>University of British Columbia</organizationName>
+      <electronicMailAddress>prwburke@tuta.io</electronicMailAddress>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-4662-8517</userId>
+    </creator>
+    <associatedParty>
+      <individualName>
+        <givenName>Felix</givenName>
+        <surName>Martinez-Nunez</surName>
+      </individualName>
+      <organizationName>South Coast Bat Conservation Society</organizationName>
+      <electronicMailAddress>flx.felixmn@gmail.com</electronicMailAddress>
+      <role>Researcher</role>
+    </associatedParty>
+    <pubDate>2018-04-09</pubDate>
+    <abstract>
+      <para>
+  Bat distribution and habitat use are determined by species natural
+  history, habitat quality, climatic conditions, and seasonality. The
+  relative importance of these contributing and potentially synergistic
+  factors is not well known for bats using wetland and open water
+  habitats in forested mountainious terrain in British Columbia. The
+  purpose of acoustic bat surveys was to characterize the bat community
+  across habitats and seasons using bioacoustic recording devices. An
+  important survey objective was to document the presence and
+  distribution of colony-roosting bats using robust and repeatable
+  methods in advance of expected population declines resulting from the
+  bat disease White-Nose Syndrome. WNS was first detected in western
+  North America in March of 2016, less than 250 km from the sudy area in
+  Washington state.
+</para>
+    </abstract>
+    <keywordSet>
+      <keyword>bats</keyword>
+      <keyword>reservoirs</keyword>
+      <keyword>bioacoustics</keyword>
+      <keyword>Fish and Wildlife Compensation Program</keyword>
+    </keywordSet>
+    <keywordSet>
+      <keyword>mammals</keyword>
+      <keywordThesaurus>mammals</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>lakes</keyword>
+      <keywordThesaurus>lakes</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>wetlands</keyword>
+      <keywordThesaurus>wetlands</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>riparian</keyword>
+      <keywordThesaurus>riparian</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>habitat selection</keyword>
+      <keywordThesaurus>habitat selection</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>community composition</keyword>
+      <keywordThesaurus>community composition</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>species diversity</keyword>
+      <keywordThesaurus>species diversity</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>species richness</keyword>
+      <keywordThesaurus>species richness</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>conservation</keyword>
+      <keywordThesaurus>conservation</keywordThesaurus>
+    </keywordSet>
+    <intellectualRights>
+      <para>
+  This information is released under the Creative Commons license -
+  Attribution - CC BY (https://creativecommons.org/licenses/by/4.0/).
+  The consumer of these data ("Data User" herein) is required
+  to cite it appropriately in any publication that results from its use.
+  The Data User should realize that these data may be actively used by
+  others for ongoing research and that coordination may be necessary to
+  prevent duplicate publication. The Data User is urged to contact the
+  authors of these data if any questions about methodology or results
+  occur. Where appropriate, the Data User is encouraged to consider
+  collaboration or co-authorship with the authors. The Data User should
+  realize that misinterpretation of data may occur if used out of
+  context of the original study. While substantial efforts are made to
+  ensure the accuracy of data and associated documentation, complete
+  accuracy of data sets cannot be guaranteed. All data are made
+  available "as is." The Data User should be aware, however,
+  that data are updated periodically and it is the responsibility of the
+  Data User to check for new versions of the data. The data authors and
+  the repository where these data were obtained shall not be liable for
+  damages resulting from any use or misinterpretation of the data. Thank
+  you.
+</para>
+    </intellectualRights>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>North America</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-121.73</westBoundingCoordinate>
+          <eastBoundingCoordinate>-121.49</eastBoundingCoordinate>
+          <northBoundingCoordinate>49.33</northBoundingCoordinate>
+          <southBoundingCoordinate>49.13</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>2016-05-10</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2017-01-10</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+    </coverage>
+    <maintenance>
+      <description>completed</description>
+    </maintenance>
+    <contact>
+      <individualName>
+        <givenName>Patrick</givenName>
+        <givenName>RW</givenName>
+        <surName>Burke</surName>
+      </individualName>
+      <organizationName>University of British Columbia</organizationName>
+      <electronicMailAddress>prwburke@tuta.io</electronicMailAddress>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-4662-8517</userId>
+    </contact>
+    <methods>
+      <methodStep>
+        <description>
+          <para>
+  Passive bioacoustic monitoring was conducted between 12 May 2016 and
+  10 January 2017 in the Wahleach watershed. The Wahleach watershed is
+  located within the Cheam Range, part of the Chilliwack Group of the
+  Canadian North Cascade Mountains, in southwest British Columbia (BC),
+  Canada. Wahleach Creek, also known as Jones Creek, flows north into
+  the Fraser River. Wahleach Creek drains a 13,750 hectare (ha)
+  watershed which includes 273 km of perennial streams, 6.4 ha open
+  standing water, and 105.9 ha of glacial ice. Elevations in the
+  watershed range from 27 meters (m) above mean sea level at the
+  confluence of Wahleach Creek with the Fraser River to 2,431 m at the
+  summit of Welch Peak. The watershed contains nine creek basins, two
+  wetland complexes, the Wahleach Reservoir, and a network of riparian
+  habitats surrounding creeks and headwater tributaries.
+</para>
+          <para>
+  Sampling locations were selected using a generalized
+  random-tessellation stratified (GRTS) survey design using the Spatial
+  Survey Design and Analysis “spsurvey” statistical package (Kincaid
+  &amp; Olsen 2016) in R (R Development Core Team 2016). Stratification
+  was based on terrestrial ecosystem mapping (TEM) units (Green 2003b)
+  delineated for the Hope IFPA (see Figure I-2). Sampling locations were
+  spatially balanced to ensure sampling represented multiple habitat
+  types across all creek basins in the Wahleach watershed (Stevens &amp;
+  Olsen 2004).
+</para>
+          <para>
+  Passive bioacoustic equipment was deployed at 19 monitoring stations
+  in riparian and wetland habitats (Figure V-4). Each station consisted
+  of one Wildlife Acoustics Song Meter SM2BAT192 or SM3BAT monitor with
+  SMM-U1 or SMX-US ultrasonic microphones powered by external sealed
+  lead acid batteries charged by 20-watt solar panels. Monitoring
+  stations were deployed using best practices to maximize detection of
+  high quality free-flying foraging calls to support accurate species
+  identification (Loeb et al. 2015; Craig &amp; Lausen 2016). Stations
+  were deployed in areas of low vegetative clutter, away from open
+  water, with an elevated microphone 5 – 10m above ground level. At each
+  station, a metric of relative clutter was estimated and canopy
+  structure was calculated using Gap Light Analyzer (Frazer et al.
+  1999).
+</para>
+          <para>
+  Monitoring stations recorded full-spectrum bat echolocation calls
+  autonomously each night beginning 30 minutes before sunset and ending
+  30 minutes after sunrise, providing a continuous record of bat
+  activity within 40 – 60 m of the microphone. Monitoring occurred
+  within three periods coinciding with bat phenology in the Wahleach
+  watershed: 1) spring migration and early pregnancy: Mid-March to
+  mid-June; 2) birthing and pup rearing: Mid-June to the first week of
+  August; 3) pup volancy, swarming, and onset to hibernation: mid-
+  August to the end of October; and 4) overwinter: November through
+  mid-March. Echolocation call files were processed in Kaleidoscope
+  Version 4.0.4 (Wildlife Acoustics 2016) using advanced signal
+  processing and converted from full-spectrum to zero-cross. Files were
+  batch processed using filters and hand-vetted by a biologist trained
+  in identification of acoustic files using AnalookW 4.1z (Corben 2015).
+</para>
+          <para>
+  Bat acoustic data summaries are archived with the Bat Acoustic
+  Monitoring Portal (BatAMP) on Data Basin and with the Global
+  Biodiversity Information Facility.
+</para>
+          <para>
+  Literature Cited:
+</para>
+          <para>
+  Corben, C. (2015). AnalookW Version 4.1z (20 September 2015).
+</para>
+          <para>
+  Craig, J. &amp; Lausen, C. (2016). NABat Program Field Guide for
+  British Columbia.
+</para>
+          <para>
+  Frazer, G., Canham, C. &amp; Lertzman, K. (1999). Gap Light Analyzer
+  (GLA), Version 2.0: Imaging software to extract canopy structure and
+  gap light transmission indices from true-colour fisheye photographs,
+  users manual and program documentation.
+</para>
+          <para>
+  Kincaid, T.M. &amp; Olsen, A.R. (2016). spsurvey: Spatial Survey
+  Design and Analysis.
+</para>
+          <para>
+  Loeb, S.C., Rodhouse, T.J., Ellison, L.E., Lausen, C.L., Reichard,
+  J.D., Irvine, K.M., Ingersoll, T.E., Coleman, J.T.H., Thogmartin,
+  W.E., Sauer, J.R., Francis, C.M., Bayless, M.L., Stanley, T.R. &amp;
+  Johnson, D.H. (2015). A Plan for the North American Bat Monitoring
+  Program ( NABat ), 112.
+</para>
+          <para>
+  Green, R.N. (2003b). Hope Innovative Forestry Practices Agreement
+  (IFPA) Terrestrial Ecosystem Mapping with Wildlife Interpretations.
+</para>
+          <para>
+  R Development Core Team. (2016). R: A language and environment for
+  statistical computing.
+</para>
+          <para>
+  Stevens, D.L. &amp; Olsen, A.R. (2004). Spatially Balanced Sampling of
+  Natural Resources. J. Am. Stat. Assoc., 99, 262–278.
+</para>
+          <para>
+  Wildlife Acoustics. (2016). Kaleidoscope. Version 4.0.4.
+</para>
+        </description>
+      </methodStep>
+    </methods>
+    <project>
+      <title>Conserving Riparian Habitats and Species-at-Risk in the Wahleach Watershed</title>
+      <personnel>
+        <individualName>
+          <givenName>Patrick</givenName>
+          <surName>Burke</surName>
+        </individualName>
+        <electronicMailAddress>prwburke@tuta.io</electronicMailAddress>
+        <userId directory="https://orcid.org">https://orcid.org/0000-0003-4662-8517</userId>
+        <role>Principal Investigator</role>
+      </personnel>
+      <funding>Fish and Wildlife Compensation Program: COA-F17-W-1211</funding>
+    </project>
+    <dataTable>
+      <entityName>dat_coaf17w1211_pbmobserv.csv</entityName>
+      <entityDescription>Site characteristics for sample stations, including spatail information, biogeographic variables, and equipment settings</entityDescription>
+      <physical>
+        <objectName>dat_coaf17w1211_pbmobserv.csv</objectName>
+        <size unit="byte">656406</size>
+        <authentication method="MD5">9e455c5fd4883b9a98b9a934ddefb1c9</authentication>
+        <dataFormat>
+          <textFormat>
+            <numHeaderLines>1</numHeaderLines>
+            <recordDelimiter>\r\n</recordDelimiter>
+            <attributeOrientation>column</attributeOrientation>
+            <simpleDelimited>
+              <fieldDelimiter>,</fieldDelimiter>
+              <quoteCharacter>"</quoteCharacter>
+            </simpleDelimited>
+          </textFormat>
+        </dataFormat>
+      </physical>
+      <attributeList>
+        <attribute>
+          <attributeName>Site</attributeName>
+          <attributeDefinition>The unique alphanumeric code identifying the sampling station which is repeatedly sampled</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>The unique alphanumeric code identifying the sampling station which is repeatedly sampled</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Night</attributeName>
+          <attributeDefinition>Night sampling began (generally 30 prior to sunset through 30 after sunrise)</attributeDefinition>
+          <storageType>date</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY-MM-DD</formatString>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Time</attributeName>
+          <attributeDefinition>Time of day recording was made on 24 hour clock</attributeDefinition>
+          <storageType>date</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>hh:mm:ss</formatString>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>DateTimeOriginal</attributeName>
+          <attributeDefinition>Timestamp of the recording</attributeDefinition>
+          <storageType>date</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY-MM-DD hh:mm</formatString>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>SpeciesID</attributeName>
+          <attributeDefinition>Species identification made a trained observer using zero-cross files in AnalookW 4.1z</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Species identification made a trained observer using zero-cross files in AnalookW 4.1z</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+      </attributeList>
+      <numberOfRecords>12944</numberOfRecords>
+    </dataTable>
+    <dataTable>
+      <entityName>dat_coaf17w1211_pbmsites.csv</entityName>
+      <entityDescription>Species detections and time stamps from passive bioacoustic data, identified by visual analysis from a trained observer</entityDescription>
+      <physical>
+        <objectName>dat_coaf17w1211_pbmsites.csv</objectName>
+        <size unit="byte">3325</size>
+        <authentication method="MD5">717b06835ee742881c16966d217f250a</authentication>
+        <dataFormat>
+          <textFormat>
+            <numHeaderLines>1</numHeaderLines>
+            <recordDelimiter>\r\n</recordDelimiter>
+            <attributeOrientation>column</attributeOrientation>
+            <simpleDelimited>
+              <fieldDelimiter>,</fieldDelimiter>
+              <quoteCharacter>"</quoteCharacter>
+            </simpleDelimited>
+          </textFormat>
+        </dataFormat>
+      </physical>
+      <attributeList>
+        <attribute>
+          <attributeName>Proj</attributeName>
+          <attributeDefinition>Project code that included this data collection</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Project code that included this data collection</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Site</attributeName>
+          <attributeDefinition>The unique alphanumeric code identifying the sampling station which is repeatedly sampled</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>The unique alphanumeric code identifying the sampling station which is repeatedly sampled</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Site_name</attributeName>
+          <attributeDefinition>Unique site name for each sampling station�</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Unique site name for each sampling station�</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>utm_zone</attributeName>
+          <attributeDefinition>Universal Transverse Mercator coordinate system (UTM) Zone</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Universal Transverse Mercator coordinate system (UTM) Zone</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>utm_easting</attributeName>
+          <attributeDefinition>UTM easting coordinate of sampling station collected from Garmin GPSMap62</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>meters</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">5449500.03</minimum>
+                  <maximum exclusive="false">5463392</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>utm_northing</attributeName>
+          <attributeDefinition>UTM easting coordinate of sampling station collected from Garmin GPSMap62</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>meters</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">598652.05</minimum>
+                  <maximum exclusive="false">605216</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>Elev</attributeName>
+          <attributeDefinition>Elevation of sampling station collected from Garmin GPSMap62</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>meters</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">31.91</minimum>
+                  <maximum exclusive="false">1251</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>start_date</attributeName>
+          <attributeDefinition>Date sampling began at the station</attributeDefinition>
+          <storageType>date</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY-MM-DD</formatString>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>end_date</attributeName>
+          <attributeDefinition>Date sampling ended at the station</attributeDefinition>
+          <storageType>date</storageType>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY-MM-DD</formatString>
+            </dateTime>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>init</attributeName>
+          <attributeDefinition>Individual responsible for the equipment deployment and maintenance at sampling station</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Individual responsible for the equipment deployment and maintenance at sampling station</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>det_model</attributeName>
+          <attributeDefinition>Model of bioacoustic detector used to make recordings</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Model of bioacoustic detector used to make recordings</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>det_sn</attributeName>
+          <attributeDefinition>Serial number of bioacoustic detector</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>dimensionless</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">2114</minimum>
+                  <maximum exclusive="false">302511</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>mic_type</attributeName>
+          <attributeDefinition>Type of ultrasonic microphone</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Type of ultrasonic microphone</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>mic_sn</attributeName>
+          <attributeDefinition>Serial number of ultrasonic microphone</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>dimensionless</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">1241</minimum>
+                  <maximum exclusive="false">102591</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>windsc</attributeName>
+          <attributeDefinition>Whether a microphone windscreen was used</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>Y</code>
+                    <definition>Yes windscreen was used</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>dampn</attributeName>
+          <attributeDefinition>Whether a sound dampener was used to minimize echos</attributeDefinition>
+          <storageType>string</storageType>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>N</code>
+                    <definition>No sound dampener was not used</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>Y</code>
+                    <definition>Yes soud dampener was used</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>mic_sens</attributeName>
+          <attributeDefinition>Measure of the microphone sensitivity</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>dBV</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">-54.3</minimum>
+                  <maximum exclusive="false">-1.7</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>trig_win</attributeName>
+          <attributeDefinition>Trigger window set on the detector</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>seconds</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>natural</numberType>
+                <bounds>
+                  <minimum exclusive="false">2</minimum>
+                  <maximum exclusive="false">2</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>max_lngth</attributeName>
+          <attributeDefinition>Maximum file length of recordings</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <customUnit>seconds</customUnit>
+              </unit>
+              <numericDomain>
+                <numberType>natural</numberType>
+                <bounds>
+                  <minimum exclusive="false">15</minimum>
+                  <maximum exclusive="false">15</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>DR</attributeName>
+          <attributeDefinition>Division ratio for zero cross analysis</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>dimensionless</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>natural</numberType>
+                <bounds>
+                  <minimum exclusive="false">8</minimum>
+                  <maximum exclusive="false">8</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>GLA</attributeName>
+          <attributeDefinition>Canopy percent openness measured by gap light using a densitometer</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>dimensionless</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">17.57</minimum>
+                  <maximum exclusive="false">65.9</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+        <attribute>
+          <attributeName>LAI4</attributeName>
+          <attributeDefinition>Effective leaf area index (4 ring) using Gap Light Analyzer v2.0 software</attributeDefinition>
+          <storageType>float</storageType>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>dimensionless</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+                <bounds>
+                  <minimum exclusive="false">0.02</minimum>
+                  <maximum exclusive="false">2.05</maximum>
+                </bounds>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <missingValueCode>
+            <code>NA</code>
+            <codeExplanation>Not available</codeExplanation>
+          </missingValueCode>
+        </attribute>
+      </attributeList>
+      <numberOfRecords>22</numberOfRecords>
+    </dataTable>
+  </dataset>
+  <additionalMetadata>
+    <metadata>
+      <unitList xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <unit id="dBV" name="dBV" unitType="soundLevel">
+          <description>digital audio level measured in decibels (dB) referenced to 1 volt</description>
+        </unit>
+      </unitList>
+    </metadata>
+  </additionalMetadata>
+</eml:eml>

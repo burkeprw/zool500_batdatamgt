@@ -43,7 +43,7 @@ dataset_name <- "coaf17w1211_pbm"
 # Additionally, use keywords that describe your lab, station, and project 
 # (e.g. GLEON, NSF). Combine keywords into a vector.
 
-keywords = c("bats","mammals","lakes","reservoirs","wetlands","habitat use",
+keywords = c("bats","mammals","lakes","reservoirs","riparian","wetlands","habitat selection",
              "bioacoustics","community composition","species diversity","species richness",
              "conservation","Fish and Wildlife Compensation Program")
 
@@ -199,3 +199,21 @@ view_unit_dictionary()
 #       So moved one data file to temp directory to run the following function:
 
 define_catvars(path = "C:/_git_burkeprw/zool500_batdatamgt/r_scripts/t3_dataarchive/eml/")
+
+
+
+## --------------------
+## Make EML
+## Step 16 from https://github.com/EDIorg/EMLassemblyline/blob/master/documentation/instructions.md
+
+make_eml(path = "./r_scripts/t3_dataarchive/eml",
+         dataset.title = dataset_title,
+         data.files = table_names,
+         data.files.description = data_table_descriptions,
+         data.files.quote.character = quote_character,
+         temporal.coverage = c(begin_date, end_date),
+         geographic.description = geographic_location,
+         geographic.coordinates = c(coordinate_north,coordinate_east,coordinate_south,coordinate_west),
+         maintenance.description = maintenance_description, 
+         user.id = user_id,
+         package.id = data_package_id)

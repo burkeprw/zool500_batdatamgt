@@ -1,0 +1,14 @@
+keyword	keywordThesaurus
+bats	
+mammals	mammals
+lakes	lakes
+reservoirs	
+wetlands	wetlands
+riparian	riparian
+habitat selection	habitat selection
+bioacoustics	
+community composition	community composition
+species diversity	species diversity
+species richness	species richness
+conservation	conservation
+Fish and Wildlife Compensation Program	

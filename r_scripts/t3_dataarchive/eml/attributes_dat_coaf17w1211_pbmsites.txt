@@ -3,8 +3,8 @@ Proj	Project code that included this data collection	character			NA	Not availabl
 Site	The unique alphanumeric code identifying the sampling station which is repeatedly sampled	character			NA	Not available
 Site_name	Unique site name for each sampling station 	character			NA	Not available
 utm_zone	Universal Transverse Mercator coordinate system (UTM) Zone	character			NA	Not available
-utm_easting	UTM easting coordinate of sampling station collected from Garmin GPSMap62		meters		NA	Not available
-utm_northing	UTM easting coordinate of sampling station collected from Garmin GPSMap62		meters		NA	Not available
+utm_easting	UTM easting coordinate of sampling station collected from Garmin GPSMap62	numeric	meters		NA	Not available
+utm_northing	UTM easting coordinate of sampling station collected from Garmin GPSMap62	numeric	meters		NA	Not available
 Elev	Elevation of sampling station collected from Garmin GPSMap62	numeric	meters		NA	Not available
 start_date	Date sampling began at the station	Date		YYYY-MM-DD	NA	Not available
 end_date	Date sampling ended at the station	Date		YYYY-MM-DD	NA	Not available
@@ -15,9 +15,9 @@ mic_type	Type of ultrasonic microphone 	character			NA	Not available
 mic_sn	Serial number of ultrasonic microphone	numeric	dimensionless		NA	Not available
 windsc	Whether a microphone windscreen was used	categorical			NA	Not available
 dampn	Whether a sound dampener was used to minimize echos	categorical			NA	Not available
-mic_sens	Measure of the microphone sensitivity	numerical	dBV		NA	Not available
-trig_win	Trigger window set on the detector	numerical	seconds		NA	Not available
-max_lngth	Maximum file length of recordings	numerical	seconds		NA	Not available
-DR	Division ratio for zero cross analysis	numerical	dimensionless		NA	Not available
-GLA	Canopy percent openness measured by gap light using a densitometer	numerical	dimensionless		NA	Not available
-LAI4	Effective leaf area index (4 ring) using Gap Light Analyzer v2.0 software	numerical	dimensionless		NA	Not available
+mic_sens	Measure of the microphone sensitivity	numeric	dBV		NA	Not available
+trig_win	Trigger window set on the detector	numeric	seconds		NA	Not available
+max_lngth	Maximum file length of recordings	numeric	seconds		NA	Not available
+DR	Division ratio for zero cross analysis	numeric	dimensionless		NA	Not available
+GLA	Canopy percent openness measured by gap light using a densitometer	numeric	dimensionless		NA	Not available
+LAI4	Effective leaf area index (4 ring) using Gap Light Analyzer v2.0 software	numeric	dimensionless		NA	Not available

@@ -1,0 +1,5 @@
+givenName	middleInitial	surName	organizationName	electronicMailAddress	userId	role	projectTitle	fundingAgency	fundingNumber
+Patrick	RW	Burke	University of British Columbia	prwburke@tuta.io	0000-0003-4662-8517	creator			
+Patrick	RW	Burke	University of British Columbia	prwburke@tuta.io	0000-0003-4662-8517	contact			
+Patrick	RW	Burke	University of British Columbia	prwburke@tuta.io	0000-0003-4662-8517	PI	Conserving Riparian Habitats and Species-at-Risk in the Wahleach Watershed	Fish and Wildlife Compensation Program	COA-F17-W-1211
+Felix 		Martinez-Nunez	South Coast Bat Conservation Society	flx.felixmn@gmail.com 		researcher			

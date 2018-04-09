@@ -5,7 +5,13 @@ Last modified: ___2018-Apr-04___
 
 ## Data Analysis
 
-Here I explore two techniques for analysing bioacoustic data: occupancy analysis and spatial regression.  
+Here I explore two techniques for analysing bioacoustic data: **occupancy analysis** and **spatial regression**.   
+
+Describe why occupancy is selected   
+Models will be created in `unmarked` (Fiske and Chandler 2015)   
+
+Describe why spatial regression is selected   
+Models will be created in `package` (CITATION)  
 
 ### Task Summary
 
@@ -17,3 +23,6 @@ To summarize the models, we have:
 
 - 
 
+## Literature Cited
+
+1. I. Fiske, R. Chandler, Overview of Unmarked: An R Package for the Analysis of Data from Unmarked Animals. R, 1–5 (2015).

@@ -20,7 +20,7 @@ Generally project data will come in two seperate tables: one containing **site i
 
 Station|Project|Organization|Zone|UTMe|UTMn|DateStart|DateEnd|DetModel|MicType|TrigWin|MaxLgh|SiteCov1|...   
 -|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-
-PBM1805D|FWCP|SCBat|WGS84|48.000|-121.000|2017-03-15|2017-10-15|SM2|SMX-US|2|15|4.7812|0.982   
+PBM1805D|FWCP|SCBat|10N|48.000|-121.000|2017-03-15|2017-10-15|SM2|SMX-US|2|15|4.7812|0.982   
 ... | | | | | | | | | | | | | 
 ... | | | | | | | | | | | | |
 

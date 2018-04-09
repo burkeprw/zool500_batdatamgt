@@ -16,3 +16,5 @@ data_copy
 zool500_batdatamgt.Rproj
 r_output
 _Temp
+all_obs.csv
+all_sites.csv
